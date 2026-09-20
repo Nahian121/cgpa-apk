@@ -1,0 +1,43 @@
+{
+  "packageId": "app.cgpa.twa",
+  "host": "fanciful-starburst-effe09.netlify.app",
+  "name": "CGPA Calculator",
+  "launcherName": "CGPA",
+  "display": "standalone",
+  "themeColor": "#4f46e5",
+  "themeColorDark": "#4f46e5",
+  "navigationColor": "#4f46e5",
+  "navigationColorDark": "#4f46e5",
+  "navigationDividerColor": "#4f46e5",
+  "navigationDividerColorDark": "#4f46e5",
+  "backgroundColor": "#f6f5f2",
+  "enableNotifications": false,
+  "startUrl": "/index.html",
+  "iconUrl": "https://fanciful-starburst-effe09.netlify.app/icons/icon-512.png",
+  "maskableIconUrl": "https://fanciful-starburst-effe09.netlify.app/icons/icon-512-maskable.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://fanciful-starburst-effe09.netlify.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://fanciful-starburst-effe09.netlify.app/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1.0.0"
+}
