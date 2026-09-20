@@ -1,0 +1,55 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the files
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install Bubblewrap
+        run: npm install -g @bubblewrap/cli
+
+      - name: Point Bubblewrap at the preinstalled JDK and Android SDK
+        run: bubblewrap updateConfig --jdkPath "$JAVA_HOME" --androidSdkPath "$ANDROID_HOME"
+
+      - name: Create a signing key
+        run: |
+          keytool -genkeypair -v \
+            -keystore android.keystore \
+            -alias android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass cgpa1234 -keypass cgpa1234 \
+            -dname "CN=CGPA, OU=Dev, O=Personal, L=Dhaka, ST=Dhaka, C=BD"
+
+      - name: Build the APK
+        env:
+          BUBBLEWRAP_KEYSTORE_PASSWORD: cgpa1234
+          BUBBLEWRAP_KEY_PASSWORD: cgpa1234
+        run: bubblewrap build --skipPwaValidation
+
+      - name: Upload the results
+        uses: actions/upload-artifact@v4
+        with:
+          name: cgpa-apk
+          path: |
+            app-release-signed.apk
+            app-release-bundle.aab
+            assetlinks.json
+            android.keystore
+          if-no-files-found: warn
