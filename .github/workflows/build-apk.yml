@@ -14,7 +14,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -26,7 +26,10 @@ jobs:
         run: npm install -g @bubblewrap/cli
 
       - name: Point Bubblewrap at the preinstalled JDK and Android SDK
-        run: bubblewrap updateConfig --jdkPath "$JAVA_HOME" --androidSdkPath "$ANDROID_HOME"
+        run: |
+          yes "" | bubblewrap updateConfig \
+            --jdkPath "$JAVA_HOME" \
+            --androidSdkPath "$ANDROID_HOME" || true
 
       - name: Create a signing key
         run: |
@@ -41,9 +44,16 @@ jobs:
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: cgpa1234
           BUBBLEWRAP_KEY_PASSWORD: cgpa1234
-        run: bubblewrap build --skipPwaValidation
+          BUBBLEWRAP_DISABLE_ANALYTICS: "1"
+        run: |
+          printf 'n\ncgpa1234\ncgpa1234\n' | bubblewrap build --skipPwaValidation
+
+      - name: Show what got built
+        if: always()
+        run: ls -la
 
       - name: Upload the results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cgpa-apk
